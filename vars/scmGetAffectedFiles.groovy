@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 @NonCPS
-List<String> call(String value) {
+List<String> call() {
 	List<String> list = []
 	for (changeLogSet in currentBuild.changeSets) {
 		for (entry in changeLogSet.getItems()) { // for each commit in the detected changes
