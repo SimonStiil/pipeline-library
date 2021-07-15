@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 package dk.stiil.pipeline
 
+import java.util.regex.Pattern
+
 class Constants {
     final static Pattern RELEASE_PATTERN = Pattern.compile("release\\/\\d{1,3}\\.\\d{1,3}(\\.\\d{1,3})?")
     final static Pattern TAG_RELEASE_PATTERN = Pattern.compile("^v\\d{1,3}\\.\\d{1,3}(\\.\\d{1,3})?\$")
