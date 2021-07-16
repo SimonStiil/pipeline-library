@@ -10,5 +10,5 @@ class Constants {
     final static Pattern PULL_REQUEST_PATTERN = Pattern.compile("^PR-\\d{1,5}")
     final static Pattern FEATURE_PATTERN = Pattern.compile("^feature\\/.+")
     final static Pattern BUGFIX_PATTERN = Pattern.compile("^bugfix\\/.+/")
-    final static Pattern MAIN_PATTERN = Pattern.compile("^main$|^master$")
+    final static Pattern MAIN_PATTERN = Pattern.compile('^main$|^master$')
 }
