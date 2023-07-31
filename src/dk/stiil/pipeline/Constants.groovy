@@ -11,4 +11,5 @@ class Constants {
     final static Pattern FEATURE_PATTERN = Pattern.compile("^feature\\/.+")
     final static Pattern BUGFIX_PATTERN = Pattern.compile("^bugfix\\/.+/")
     final static Pattern MAIN_PATTERN = Pattern.compile('^main$|^master$')
+    final static String DEV_NAMESPACE = "jenkins-dev"
 }
