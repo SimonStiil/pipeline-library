@@ -1,13 +1,15 @@
 #!/usr/bin/env groovy
 @NonCPS
 LinkedHashMap<String,Object> call(String remoteRepoURL) {
-    String[] strings = remoteRepoURL.replace(".git","").split("/")
-    String repoName = strings[strings.length-1]
-    String orgName = strings[strings.length-2]
+    def matcher = remoteRepoURL =~ '(github.com)\\/(([A-Za-z0-9]+)\\/([A-Za-z0-9-_]+))'
+    def firstMatchLine = matcher[0]
     def gitMap = [
-        repoName: repoName, 
-        orgName: orgName, 
-        fullName: orgName+"/"+repoName
+        host: firstMatchLine[1],
+        repoName: firstMatchLine[4],
+        orgName: firstMatchLine[3],
+        fullName: firstMatchLine[2]
     ]
+
+
     return gitMap
 }
