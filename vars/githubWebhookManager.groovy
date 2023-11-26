@@ -6,7 +6,15 @@ Required:
 Optional:
     credentialId
     webhookTokenId
+    debug: dafaults to false
+    quiet: defaults to true
  */
+    if (!data.debug){
+        data.debug = false
+    }
+    if (!data.quiet){
+        data.quiet = true
+    }
     if (data.gitMap.host == "github.com") {
         webhookList = githubWebhookList(data)
 
@@ -39,7 +47,6 @@ Optional:
                     }
                     if (update) {
                         data.hookId = webhook.id
-                        data.debug = true
                         githubWebhookUpdate(data)
                         echo "WebHook: Webhook events updated"
                     } else {

@@ -8,7 +8,8 @@ Optional:
     url: url to set
     events: events to set
     credentialId
-    debug
+    debug: dafaults to false
+    quiet: defaults to true
  */
     if (!data.credentialId){
         data.credentialId = "github-login-secret"

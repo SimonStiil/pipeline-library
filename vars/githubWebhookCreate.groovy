@@ -7,9 +7,17 @@ Required:
     url: url to set
 Optional:
     credentialId
+    debug: dafaults to false
+    quiet: defaults to true
  */
     if (!data.credentialId){
         data.credentialId = "github-login-secret"
+    }
+    if (!data.debug){
+        data.debug = false
+    }
+    if (!data.quiet){
+        data.quiet = false
     }
     withCredentials([usernamePassword(credentialsId: data.credentialId,
             usernameVariable: 'GITHUB_USERNAME',
@@ -20,6 +28,9 @@ Optional:
                 httpMode: 'POST',
                 url: "https://api.github.com/repos/${data.gitMap.fullName}/hooks",
                 requestBody: '{"name":"web","active":true,"events":'+data.events.toString()+','+
-                        '"config":{"url":"'+ data.url +'","content_type":"json","insecure_ssl":"0"}}'
+                        '"config":{"url":"'+ data.url +'","content_type":"json","insecure_ssl":"0"}}',
+                consoleLogResponseBody: data.debug,
+                quiet: data.quiet,
+                wrapAsMultipart: false
     }
 }

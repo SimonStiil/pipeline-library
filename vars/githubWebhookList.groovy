@@ -5,9 +5,17 @@ Required:
     gitMap: map from scmGetOrgRepo
 Optional:
     credentialId
+    debug: dafaults to false
+    quiet: defaults to true
  */
     if (!data.credentialId){
         data.credentialId = "github-login-secret"
+    }
+    if (!data.debug){
+        data.debug = false
+    }
+    if (!data.quiet){
+        data.quiet = false
     }
     Object jsonResponse
     if (data.gitMap.host == "github.com") {
@@ -19,7 +27,10 @@ Optional:
             def response = httpRequest customHeaders: [[name: 'Accept', value: 'application/vnd.github+json'],
                                                        [name: 'Authorization', value: 'Bearer ' + GITHUB_PERSONAL],
                                                        [name: 'X-GitHub-Api-Version', value: '2022-11-28']],
-                    url: "https://api.github.com/repos/${data.gitMap.fullName}/hooks"
+                    url: "https://api.github.com/repos/${data.gitMap.fullName}/hooks",
+                    consoleLogResponseBody: data.debug,
+                    quiet: data.quiet,
+                    wrapAsMultipart: false
             jsonResponse = readJSON text: response.content
         }
     }
