@@ -30,7 +30,7 @@ Optional:
                     httpMode: 'PATCH',
                     url: "https://api.github.com/repos/${data.gitMap.fullName}/hooks/${data.hookId}",
                     requestBody: body,
-                    consoleLogResponseBody: debug,
+                    consoleLogResponseBody: data.debug,
                     wrapAsMultipart: false
         }
     }
