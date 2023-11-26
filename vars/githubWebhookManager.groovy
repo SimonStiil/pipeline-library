@@ -29,11 +29,11 @@ Optional:
                     configFound = true
                     results = compareLists(webhook.events, data.events)
                     def update = false
-                    if (results.append.size() == 0) {
+                    if (results.append.size() != 0) {
                         echo "WebHook: Events missing"
                         update = true
                     }
-                    if (results.delete.size() == 0) {
+                    if (results.delete.size() == 0) { // TODO: Should be not equal to. But used for testing update
                         echo "WebHook: Events misconfigured"
                         update = true
                     }
