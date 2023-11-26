@@ -10,6 +10,7 @@ Optional:
     if (data.gitMap.host == "github.com") {
         webhookList = githubWebhookList(data)
         if (webhookList == null) {
+            echo "WebHook: Repository host ${gitMap.host} is not github.com"
             return null
         }
         if (!data.webhookTokenId){
