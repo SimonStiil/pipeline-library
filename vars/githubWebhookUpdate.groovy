@@ -16,6 +16,9 @@ Optional:
     if (!data.debug){
         data.debug = false
     }
+    if (!data.quiet){
+        data.quiet = false
+    }
     if ( data.events ) {
         withCredentials([usernamePassword(credentialsId: data.credentialId,
                 usernameVariable: 'GITHUB_USERNAME',
@@ -31,6 +34,7 @@ Optional:
                     url: "https://api.github.com/repos/${data.gitMap.fullName}/hooks/${data.hookId}",
                     requestBody: body,
                     consoleLogResponseBody: data.debug,
+                    quiet: data.quiet,
                     wrapAsMultipart: false
         }
     }
@@ -43,7 +47,9 @@ Optional:
                                         [name: 'X-GitHub-Api-Version', value: '2022-11-28']],
                     httpMode: 'PATCH',
                     url: "https://api.github.com/repos/${data.gitMap.fullName}/hooks/${data.hookId}",
-                    requestBody: '{"config":{"url":"'+data.events.toString()+'"}}',
+                    requestBody: '{"config":{"url":"'+data.url.toString()+'"}}',
+                    consoleLogResponseBody: data.debug,
+                    quiet: data.quiet,
                     wrapAsMultipart: false
         }
     }

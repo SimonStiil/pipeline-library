@@ -20,12 +20,12 @@ Optional:
         }
         withCredentials([string(credentialsId: data.webhookTokenId,
                 variable: 'TOKEN')]) {
-            data.url = env.JENKINS_URL + "generic-webhook-trigger/invoke?token=" + TOKEN
+            url = env.JENKINS_URL + "generic-webhook-trigger/invoke?token=" + TOKEN
             data.events = ["delete", "push"]
             // https://docs.github.com/en/rest/repos/webhooks?apiVersion=2022-11-28
             def configFound = false
             for (webhook in webhookList) {
-                if (webhook.config.url.contains(data.url)) {
+                if (webhook.config.url.contains(url)) {
                     configFound = true
                     results = compareLists(webhook.events, data.events)
                     def update = false
@@ -49,6 +49,7 @@ Optional:
             }
             if (!configFound) {
                 echo "WebHook: No config found"
+                data.url = url
                 githubWebhookCreate(data)
                 echo "WebHook: created"
             }
