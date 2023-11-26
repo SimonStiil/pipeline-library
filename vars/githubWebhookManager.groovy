@@ -39,6 +39,7 @@ Optional:
                     }
                     if (update) {
                         data.hookId = webhook.id
+                        data.debug = true
                         githubWebhookUpdate(data)
                         echo "WebHook: Webhook events updated"
                     } else {
