@@ -10,12 +10,12 @@ def call(Map data) {
       httpMode: "POST",
 	  contentType: "APPLICATION_OCTETSTREAM",
       authentication: credentialId,
-      multipartName: 'file',
 	  customHeaders: [[name: 'X-GitHub-Api-Version', value: '2022-11-28']],
       consoleLogResponseBody: debug,
       quiet: quiet,
       url: data.url.replace("{?name,label}","?name="+ data.fileName),
       uploadFile: filePath+data.fileName,
+      wrapAsMultipart: false,
       validResponseCodes: "201"
   return response;
 }
