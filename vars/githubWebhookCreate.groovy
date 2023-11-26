@@ -3,7 +3,6 @@ def call(Map data) {
 /*
 Required:
     gitMap: map from scmGetOrgRepo
-    hookId: id of the hook to update
     events: events to set
     url: url to set
 Optional:

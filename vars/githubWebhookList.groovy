@@ -10,9 +10,8 @@ Optional:
         data.credentialId = "github-login-secret"
     }
     if (data.gitMap.host == "github.com") {
-        def url = env.JENKINS_URL + "generic-webhook-trigger/invoke?token="
-        def events = ["delete", "push"]
-        //https://docs.github.com/en/rest/repos/webhooks?apiVersion=2022-11-28
+        // https://docs.github.com/en/rest/repos/webhooks?apiVersion=2022-11-28
+        // curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_PERSONAL" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/SimonStiil/keyvaluedatabase/hooks
         withCredentials([usernamePassword(credentialsId: data.credentialId,
                 usernameVariable: 'GITHUB_USERNAME',
                 passwordVariable: 'GITHUB_PERSONAL')]) {
