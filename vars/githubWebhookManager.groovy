@@ -9,7 +9,7 @@ Optional:
  */
     if (data.gitMap.host == "github.com") {
         webhookList = githubWebhookList(data)
-        if (list == null) {
+        if (webhookList == null) {
             return null
         }
         if (!data.webhookTokenId){
