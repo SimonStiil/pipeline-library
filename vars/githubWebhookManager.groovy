@@ -25,7 +25,7 @@ Optional:
             // https://docs.github.com/en/rest/repos/webhooks?apiVersion=2022-11-28
             def configFound = false
             for (webhook in webhookList) {
-                if (webhook.config.url.contains(url)) {
+                if (webhook.config.url.contains(data.url)) {
                     configFound = true
                     results = compareLists(webhook.events, events)
                     def update = false

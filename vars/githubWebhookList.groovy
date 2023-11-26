@@ -20,9 +20,7 @@ Optional:
                                                        [name: 'Authorization', value: 'Bearer ' + GITHUB_PERSONAL],
                                                        [name: 'X-GitHub-Api-Version', value: '2022-11-28']],
                     url: "https://api.github.com/repos/${data.gitMap.fullName}/hooks"
-            echo "githubWebhookList: " + response.content
             jsonResponse = readJSON text: response.content
-            echo "githubWebhookList(json): " + jsonResponse.toString()
         }
     }
     return jsonResponse
