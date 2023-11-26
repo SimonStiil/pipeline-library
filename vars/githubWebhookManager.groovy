@@ -27,7 +27,7 @@ Optional:
             for (webhook in webhookList) {
                 if (webhook.config.url.contains(data.url)) {
                     configFound = true
-                    results = compareLists(webhook.events, events)
+                    results = compareLists(webhook.events, data.events)
                     def update = false
                     if (results.append.size() == 0) {
                         echo "WebHook: Events missing"
