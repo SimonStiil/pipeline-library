@@ -27,7 +27,6 @@ Optional:
             // curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_PERSONAL" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/repos/SimonStiil/keyvaluedatabase/hooks/442580848 -X PATCH -d '{"events":["delete", "push"]}'
             String jsonEvents = writeJSON returnText: true, json: data.events
             String body = '{"events":'+jsonEvents+'}'
-            echo "githubWebhookUpdate (body): " + body
             httpRequest customHeaders: [[name: 'Accept', value: 'application/vnd.github+json'],
                                                        [name: 'Authorization', value: 'Bearer ' + GITHUB_PERSONAL],
                                                        [name: 'X-GitHub-Api-Version', value: '2022-11-28']],
@@ -40,6 +39,7 @@ Optional:
         }
     }
     if ( data.url ) {
+        //TODO: Not really tested or used...
         withCredentials([usernamePassword(credentialsId: data.credentialId,
                 usernameVariable: 'GITHUB_USERNAME',
                 passwordVariable: 'GITHUB_PERSONAL')]) {

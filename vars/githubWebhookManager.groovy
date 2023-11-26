@@ -17,8 +17,6 @@ Optional:
     }
     if (data.gitMap.host == "github.com") {
         webhookList = githubWebhookList(data)
-
-        echo "webhookList: " + webhookList.toString()
         if (webhookList == null) {
             echo "WebHook: Repository host ${data.gitMap.host} is not github.com"
             return null
@@ -41,7 +39,7 @@ Optional:
                         echo "WebHook: Events missing"
                         update = true
                     }
-                    if (results.delete.size() == 0) { // TODO: Should be not equal to. But used for testing update
+                    if (results.delete.size() != 0) {
                         echo "WebHook: Events misconfigured"
                         update = true
                     }
