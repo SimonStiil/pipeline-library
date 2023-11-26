@@ -27,7 +27,7 @@ Optional:
         withCredentials([string(credentialsId: data.webhookTokenId,
                 variable: 'TOKEN')]) {
             url = env.JENKINS_URL + "generic-webhook-trigger/invoke?token=" + TOKEN
-            data.events = ["delete", "push"]
+            data.events = ["delete", "push", "pull_request"]
             // https://docs.github.com/en/rest/repos/webhooks?apiVersion=2022-11-28
             def configFound = false
             for (webhook in webhookList) {
