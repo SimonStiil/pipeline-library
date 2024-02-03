@@ -22,12 +22,12 @@ def call(Map data) {
         config.version = data.branch
         for (item in packageVersions['results']){
             if (item['name'] == data.branch ) {
-                if (dockerhubDeleteTag data) {
+                if (dockerhubDeleteTag(data)) {
                     echo "Deleted ${data.PACKAGE_DESTINATION}/${data.PACKAGE_TYPE}:${data.branch}"
                 }
             }
         }
     } else {
-        echo "Not a delete event, branch: ${data.github_event}, data: ${data.github_event}"
+        echo "Not a delete event, branch: ${data.branch}, data: ${data.github_event}"
     }
 }
