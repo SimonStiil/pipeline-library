@@ -74,14 +74,15 @@ def call(Map properties, String token, String digestOrTag) {
         validResponseCodes: '200,307',
         wrapAsMultipart: false
     )
-    echo configRedirectResponse.headers.toString()
+    
     def config
     if (configRedirectResponse.status == 307) {
         // Follow the redirect manually
-        def redirectLocation = configRedirectResponse.headers.find { it.name == 'Location' }?.value
+        // Header value is a list, get the first element
+        def redirectLocation = configRedirectResponse.headers.find { it.key == 'Location' }?.value[0]
         if (redirectLocation) {
             if (properties.debug) {
-                echo "Following redirect to: ${redirectLocation}"
+//                echo "Following redirect to: ${redirectLocation}"
             }
             def configResponse = httpRequest(
                 customHeaders: [
