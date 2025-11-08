@@ -3,12 +3,6 @@ def call(Map properties, String token) {
     if (!properties.credentialId){
         properties.credentialId = "github-login-secret"
     }
-    if (!properties.debug){
-        properties.debug = false
-    }
-    if (!properties.quiet){
-        properties.quiet = true
-    }
     def acceptHeader = [
         'application/vnd.oci.image.manifest.v1+json',
         'application/vnd.oci.image.index.v1+json',

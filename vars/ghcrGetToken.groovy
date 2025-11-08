@@ -4,12 +4,6 @@ def call(Map properties) {
     if (!properties.credentialId){
         properties.credentialId = "github-login-secret"
     }
-    if (!properties.debug){
-        properties.debug = false
-    }
-    if (!properties.quiet){
-        properties.quiet = true
-    }
     withCredentials([usernamePassword(credentialsId: properties.credentialId,
             usernameVariable: 'GITHUB_USERNAME',
             passwordVariable: 'GITHUB_PERSONAL')]) {

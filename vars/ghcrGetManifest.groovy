@@ -3,12 +3,6 @@ def call(Map properties, String token, String digestOrTag) {
     if (!properties.credentialId){
         properties.credentialId = "github-login-secret"
     }
-    if (!properties.debug){
-        properties.debug = false
-    }
-    if (!properties.quiet){
-        properties.quiet = true
-    }
     // Accept all manifest types
     def acceptHeader = [
         'application/vnd.oci.image.manifest.v1+json',
@@ -28,7 +22,6 @@ def call(Map properties, String token, String digestOrTag) {
         quiet: properties.quiet,
         wrapAsMultipart: false
     )
-    
     def manifest = readJSON text: manifestResponse.content
     def manifestInfo = [:]
     
@@ -75,11 +68,12 @@ def call(Map properties, String token, String digestOrTag) {
             [name: 'Authorization', value: "Bearer ${token}"]
         ],
         url: "https://ghcr.io/v2/${properties.organization}/${properties.PACKAGE_NAME}/blobs/${configDigest}",
-        consoleLogResponseBody: properties.debug,
-        quiet: properties.quiet,
+        consoleLogResponseBody: true,
+        quiet: false,
         wrapAsMultipart: false
     )
     
+    echo configResponse.content.toString()
     def config = readJSON text: configResponse.content
     manifestInfo.platform = [
         architecture: config.architecture,
