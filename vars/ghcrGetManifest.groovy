@@ -1,8 +1,5 @@
 #!/usr/bin/env groovy
 def call(Map properties, String token, String digestOrTag) {
-    if (!properties.credentialId){
-        properties.credentialId = "github-login-secret"
-    }
     // Accept all manifest types
     def acceptHeader = [
         'application/vnd.oci.image.manifest.v1+json',
@@ -22,6 +19,7 @@ def call(Map properties, String token, String digestOrTag) {
         quiet: properties.quiet,
         wrapAsMultipart: false
     )
+    
     def manifest = readJSON text: manifestResponse.content
     def manifestInfo = [:]
     
@@ -61,20 +59,47 @@ def call(Map properties, String token, String digestOrTag) {
     manifestInfo.schemaVersion = manifest.schemaVersion
     
     // Parse config blob to get OS/arch info
+    // Note: Blob requests return 307 redirects, so we need to handle them
     def configDigest = manifest.config.digest
-    def configResponse = httpRequest(
+    
+    // First request to get the redirect location
+    def configRedirectResponse = httpRequest(
         customHeaders: [
             [name: 'Accept', value: 'application/vnd.docker.container.image.v1+json, application/vnd.oci.image.config.v1+json'],
             [name: 'Authorization', value: "Bearer ${token}"]
         ],
         url: "https://ghcr.io/v2/${properties.organization}/${properties.PACKAGE_NAME}/blobs/${configDigest}",
-        consoleLogResponseBody: true,
-        quiet: false,
+        consoleLogResponseBody: properties.debug,
+        quiet: properties.quiet,
+        validResponseCodes: '200,307',
         wrapAsMultipart: false
     )
+    echo configRedirectResponse.headers.toString()
+    def config
+    if (configRedirectResponse.status == 307) {
+        // Follow the redirect manually
+        def redirectLocation = configRedirectResponse.headers.find { it.name == 'Location' }?.value
+        if (redirectLocation) {
+            if (properties.debug) {
+                echo "Following redirect to: ${redirectLocation}"
+            }
+            def configResponse = httpRequest(
+                customHeaders: [
+                    [name: 'Accept', value: 'application/vnd.docker.container.image.v1+json, application/vnd.oci.image.config.v1+json']
+                ],
+                url: redirectLocation,
+                consoleLogResponseBody: properties.debug,
+                quiet: properties.quiet,
+                wrapAsMultipart: false
+            )
+            config = readJSON text: configResponse.content
+        } else {
+            error("Received 307 redirect but no Location header found")
+        }
+    } else {
+        config = readJSON text: configRedirectResponse.content
+    }
     
-    echo configResponse.content.toString()
-    def config = readJSON text: configResponse.content
     manifestInfo.platform = [
         architecture: config.architecture,
         os: config.os,
